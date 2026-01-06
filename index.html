@@ -3,639 +3,644 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Directo Despacho</title>
+    <title>Monitor de Despachador -  Directo</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #f5f7fa;
-            color: #1a1a1a;
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0A50E6;
+            padding: 20px;
+            color: #333;
         }
-        header {
-            /* background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%); */
-            box-shadow: 0 4px 20px rgba(21, 101, 192, 0.15);
-            padding: 1rem 2rem;
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .header-left {
+
+        .header h1 {
+            color: #0A50E6;
+            font-size: 28px;
+        }
+
+        .header .status {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 10px;
         }
-        .logo {
-            height: 50px;
-            width: auto;
+
+        .live-indicator {
+            width: 12px;
+            height: 12px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
-        .header-title h1 {
-            color: white;
-            font-size: 1.8rem;
-            font-weight: 800;
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
-        .header-title p {
-            font-size: 0.75rem;
-            color: rgba(255,255,255,0.9);
-            margin-top: 0.15rem;
-        }
-        .header-info {
-            text-align: right;
-            font-size: 0.95rem;
-            color: white;
-        }
-        .header-info p { 
-            margin: 0.3rem 0;
-            font-weight: 500;
-        }
-        main {
-            max-width: 100%;
-            padding: 2rem;
-            background: #f5f7fa;
-        }
-        .alert {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0.75rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-left: 5px solid;
-        }
-        .alert.success {
-            background: #e8f5e9;
-            border-color: #4caf50;
-            color: #2e7d32;
-        }
-        .alert.error {
-            background: #ffebee;
-            border-color: #f44336;
-            color: #c62828;
-        }
+
         .controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
             background: white;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        }
-        .control-group {
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
             display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
         }
-        label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #404040;
-            text-transform: uppercase;
-        }
-        input, select {
-            padding: 0.75rem;
-            background: #f9f9f9;
-            border: 2px solid #e0e0e0;
-            border-radius: 0.5rem;
-            color: #1a1a1a;
-            font-size: 0.95rem;
-        }
-        input:focus, select:focus {
-            outline: none;
-            border-color: #1565c0;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
-        }
-        button {
-            padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+
+        .btn {
+            padding: 12px 24px;
             border: none;
-            border-radius: 0.5rem;
-            color: white;
-            font-weight: 700;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
         }
-        button:hover {
+
+        .btn-primary {
+            background: #0A50E6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #053baf;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        .stats-grid {
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        input[type="file"] {
+            padding: 8px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            gap: 1.25rem;
-            margin-bottom: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
         }
-        .stat-card {
-            padding: 1.25rem;
+
+        .card {
             background: white;
-            border-top: 4px solid #1565c0;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .stat-card-label {
-            font-size: 0.75rem;
-            color: #666;
-            text-transform: uppercase;
+
+        .card h3 {
+            color: #0A50E6;
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-number {
+            font-size: 36px;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            color: #0A50E6;
         }
-        .stat-card-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #1565c0;
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 5px;
         }
-        .summary-box {
-            background: linear-gradient(135deg, rgba(21, 101, 192, 0.1) 0%, rgba(25, 118, 210, 0.1) 100%);
-            border-left: 5px solid #1565c0;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
-            margin-bottom: 1.5rem;
-        }
-        .summary-box h3 {
-            color: #1565c0;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
-        }
-        .summary-box > div {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-        }
-        .summary-item {
-            text-align: center;
-        }
-        .summary-item p:first-child {
-            font-size: 0.8rem;
-            color: #666;
-            text-transform: uppercase;
-            font-weight: 700;
-        }
-        .summary-item p:last-child {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #1565c0;
-            margin-top: 0.25rem;
-        }
-        .table-wrapper {
-            background: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            overflow: hidden;
-        }
+
         .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow-x: auto;
-            max-height: 600px;
-            overflow-y: auto;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.85rem;
         }
+
         thead {
-            position: sticky;
-            top: 0;
-            background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+            background: #f3f4f6;
         }
+
         th {
-            padding: 1rem;
+            padding: 12px;
             text-align: left;
-            font-weight: 700;
-            color: white;
-            white-space: nowrap;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
         }
+
         td {
-            padding: 0.85rem 1rem;
-            border-bottom: 1px solid #e0e0e0;
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
         }
+
         tbody tr:hover {
-            background: #f0f4ff;
+            background: #f9fafb;
         }
+
         .badge {
             display: inline-block;
-            padding: 0.4rem 0.8rem;
-            border-radius: 0.4rem;
-            font-size: 0.75rem;
-            font-weight: 700;
-            white-space: nowrap;
-            text-transform: uppercase;
-        }
-        .badge.libre { background: #c8e6c9; color: #1b5e20; }
-        .badge.ocupado { background: #ffccbc; color: #bf360c; }
-        .badge.true { background: #c8e6c9; color: #1b5e20; }
-        .badge.false { background: #ffccbc; color: #bf360c; }
-        .badge.notificado { background: #bbdefb; color: #0d47a1; }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 1.5rem;
-            background: white;
-            border-top: 1px solid #e0e0e0;
-            flex-wrap: wrap;
-        }
-        .pagination button {
-            padding: 0.5rem 1rem;
-            background: #f0f0f0;
-            color: #1a1a1a;
-            border: 1px solid #e0e0e0;
-            border-radius: 0.375rem;
-            cursor: pointer;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 600;
         }
-        .pagination button.active {
-            background: #1565c0;
-            color: white;
-            border-color: #1565c0;
+
+        .badge-anillo-1 {
+            background: #d1fae5;
+            color: #065f46;
         }
-        .pagination-info {
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            color: #666;
-            background: white;
-            border-top: 1px solid #e0e0e0;
+
+        .badge-anillo-2 {
+            background: #fef3c7;
+            color: #92400e;
         }
-        #emptyState {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: #999;
+
+        .badge-anillo-3 {
+            background: #fed7aa;
+            color: #7c2d12;
         }
-        #emptyState p:first-child { font-size: 3rem; margin-bottom: 1rem; }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #999;
-            font-size: 0.85rem;
-            margin-top: 2rem;
+
+        .badge-anillo-4 {
+            background: #fecaca;
+            color: #991b1b;
         }
-        .export-btn {
-            background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+
+        .badge-ok {
+            background: #d1fae5;
+            color: #065f46;
         }
-        @media (max-width: 768px) {
-            .controls { grid-template-columns: repeat(2, 1fr); }
-            header { flex-direction: column; gap: 1rem; text-align: center; }
-            .header-left { justify-content: center; }
-            .logo { height: 40px; }
+
+        .badge-ocupado {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: #0A50E6;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #0A50E6;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 17px;
+            width: 2px;
+            height: calc(100% - 12px);
+            background: #e5e7eb;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-time {
+            font-family: monospace;
+            color: #6b7280;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-content {
+            background: #f9fafb;
+            padding: 10px;
+            border-radius: 8px;
+            border-left: 3px solid #0A50E6;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            border-left: 4px solid #3b82f6;
+            color: #1e40af;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            color: #92400e;
+        }
+
+        #autoRefresh {
+            margin-left: auto;
+        }
+
+        .filter-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .filter-bar input, .filter-bar select {
+            padding: 8px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-left">
-            <!-- <img src="https://portal.directoapp.pe/Tarifador/assets/img/logo-empresa.png" alt="Directo Logo" class="logo" onerror="this.style.display='none'"> -->
-            <div class="header-title">
-                <!-- <h1>📊 AnalysisOS</h1> -->
-                <p style="color: #111;">Sistema de Despacho | TI</p>
-            </div>
-        </div>
-        <div class="header-info">
-            <p style="color: #222;">Registros: <strong id="totalRows" style="color: #222;">0</strong></p>
-            <p style="color: #222;">Última actualización: <strong id="lastUpdate" style="color: #222;">-</strong></p>
-        </div>
-    </header>
-    <main>
-        <div id="alert" class="alert" style="display: none;">
-            <span id="alertText"></span>
-            <button onclick="this.parentElement.style.display='none'" style="background: none; border: none; color: inherit; font-size: 1.5rem; cursor: pointer;">×</button>
-        </div>
-
-        <div id="emptyState">
-            <p>📊</p>
-            <p><strong>Sube un archivo CSV de diagnóstico para comenzar</strong></p>
-            <p style="margin-top: 1rem; cursor: pointer; color: #1565c0; font-weight: 700;" onclick="document.getElementById('fileInput').click()">
-                👆 Haz clic aquí o arrastra tu archivo
-            </p>
-        </div>
-        <input type="file" id="fileInput" accept=".csv">
-
-        <div class="summary-box" id="summaryBox" style="display: none;">
-            <h3>📈 Resumen Ejecutivo</h3>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
             <div>
-                <div class="summary-item">
-                    <p>Conductores</p>
-                    <p id="uniqueConductors">-</p>
-                </div>
-                <div class="summary-item">
-                    <p>Servicios</p>
-                    <p id="uniqueServices">-</p>
-                </div>
-                <div class="summary-item">
-                    <p>Notificados</p>
-                    <p id="notificadosCount" style="color: #4caf50;">-</p>
-                </div>
-                <div class="summary-item">
-                    <p>No Notificados</p>
-                    <p id="noNotificadosCount" style="color: #f44336;">-</p>
-                </div>
-                <div class="summary-item">
-                    <p>Razón Principal</p>
-                    <p id="topReason" style="font-size: 0.9rem;">-</p>
-                </div>
-                <div class="summary-item">
-                    <p>Anillo Promedio</p>
-                    <p id="avgAnillo">-</p>
-                </div>
+                <h1> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREIA-YqkfFFwS1fR_6VZ4lh15r88cfFh3b3w&s" alt="Directo Logo" width="20"> Monitor de Despachador</h1>
+                <p style="color: #6b7280; margin-top: 5px;">Sistema Taxi Directo - Análisis en Tiempo Real</p>
+            </div>
+            <div class="status">
+                <div class="live-indicator"></div>
+                <span style="font-weight: 600;">En Vivo</span>
+                <span id="lastUpdate" style="color: #6b7280; margin-left: 10px;">--:--:--</span>
             </div>
         </div>
 
-        <div class="stats-grid" id="statsGrid" style="display: none;">
-            <div class="stat-card">
-                <div class="stat-card-label">Total Registros</div>
-                <div class="stat-card-value" id="statTotal">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card-label">GPS Desactualizado</div>
-                <div class="stat-card-value" id="statGPS" style="color: #f9a825;">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card-label">Conductores</div>
-                <div class="stat-card-value" id="statConductores">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card-label">En Turno</div>
-                <div class="stat-card-value" id="statEnTurno" style="color: #4caf50;">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card-label">Activos</div>
-                <div class="stat-card-value" id="statActivos" style="color: #4caf50;">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-card-label">Válidos</div>
-                <div class="stat-card-value" id="statValidacion" style="color: #1565c0;">0</div>
-            </div>
+        <!-- Alert -->
+        <div class="alert alert-info">
+            <strong>ℹ️ Información:</strong> Esta página lee los archivos CSV generados por el despachador. 
+            Coloca los archivos .csv en la misma carpeta que este HTML o cárgalos manualmente.
         </div>
 
-        <div class="controls" id="controlsBox" style="display: none;">
-            <div class="control-group">
-                <label>Buscar por Servicio</label>
-                <input type="text" id="servicioFilter" placeholder="Ej: 5421852" onkeyup="filtroDebounce()">
+        <!-- Controls -->
+        <div class="controls">
+            <input type="file" id="csvFile" accept=".csv" class="btn">
+            <button onclick="loadCSV()" class="btn btn-primary">📊 Cargar CSV</button>
+            <button onclick="clearData()" class="btn btn-danger">🗑️ Limpiar Datos</button>
+            <!-- <label style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+                <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
+                <span>Auto-actualizar cada 5s</span>
+            </label> -->
+        </div>
+
+        <!-- Stats -->
+        <div class="grid">
+            <div class="card">
+                <h3>📋 Total Eventos</h3>
+                <div class="stat-number" id="totalEventos">0</div>
+                <div class="stat-label">Registros procesados</div>
             </div>
-            <div class="control-group">
-                <label>Filtrar por Anillo</label>
-                <select id="anilloFilter" onchange="aplicarFiltros()">
-                    <option value="">Todos</option>
+            <div class="card">
+                <h3>🚗 Servicios Únicos</h3>
+                <div class="stat-number" id="totalServicios">0</div>
+                <div class="stat-label">Servicios despachados</div>
+            </div>
+            <!-- <div class="card">
+                <h3>⏱️ Tiempo Promedio</h3>
+                <div class="stat-number" id="tiempoPromedio">--</div>
+                <div class="stat-label">Por anillo (segundos)</div>
+            </div> -->
+            <!-- <div class="card">
+                <h3>⚠️ Problemas Detectados</h3>
+                <div class="stat-number" id="problemasDetectados">0</div>
+                <div class="stat-label">Servicios con saltos de anillo</div>
+            </div> -->
+        </div>
+
+        <!-- Filters -->
+        <div class="table-container">
+            <h3 style="color: #0A50E6; margin-bottom: 15px;">🔍 Filtros de Búsqueda</h3>
+            <div class="filter-bar">
+                <input type="text" id="filterServicio" placeholder="ID Servicio" onkeyup="filterTable()">
+                <select id="filterAnillo" onchange="filterTable()">
+                    <option value="">Todos los anillos</option>
                     <option value="1">Anillo 1</option>
                     <option value="2">Anillo 2</option>
                     <option value="3">Anillo 3</option>
                     <option value="4">Anillo 4</option>
                 </select>
+                <input type="text" id="filterAccion" placeholder="Acción" onkeyup="filterTable()">
+                <input type="text" id="filterConductor" placeholder="ID Conductor" onkeyup="filterTable()">
             </div>
-            <div class="control-group">
-                <label>Filtrar por Estado</label>
-                <select id="estadoFilter" onchange="aplicarFiltros()">
-                    <option value="">Todos</option>
-                    <option value="LIBRE">LIBRE</option>
-                    <option value="OCUPADO">OCUPADO</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label>Filtrar por Notificación</label>
-                <select id="notificacionFilter" onchange="aplicarFiltros()">
-                    <option value="">Todos</option>
-                    <option value="true">Notificados (SÍ)</option>
-                    <option value="false">No Notificados</option>
-                </select>
-            </div>
-            <div class="control-group">
-                <label>Buscar Conductor</label>
-                <input type="text" id="searchInput" placeholder="Nombre o ID..." onkeyup="filtroDebounce()">
-            </div>
-            <div class="control-group">
-                <label>Buscar Razón</label>
-                <input type="text" id="reasonSearch" placeholder="GPS, LOCKED..." onkeyup="filtroDebounce()">
-            </div>
-            <div class="control-group">
-                <label>&nbsp;</label>
-                <button onclick="exportarCSV()" class="export-btn">📥 Exportar CSV</button>
-            </div>
+
+            <!-- Table -->
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Servicio</th>
+                        <th>Anillo</th>
+                        <th>Acción</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: #9ca3af;">
+                            No hay datos cargados. Por favor carga un archivo CSV.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
-        <div class="table-wrapper" id="tableWrapper" style="display: none;">
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Timestamp</th>
-                            <th>Servicio</th>
-                            <th>Anillo</th>
-                            <th>ID Conductor</th>
-                            <th>Nombre</th>
-                            <th>Dist (m)</th>
-                            <th>Zona</th>
-                            <th>Estado</th>
-                            <th>Min GPS</th>
-                            <th>Activo</th>
-                            <th>Turno</th>
-                            <th>Locked</th>
-                            <th>Empalme</th>
-                            <th>Válido</th>
-                            <th>Razón</th>
-                            <th>Notificado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody"></tbody>
-                </table>
-            </div>
-            <div class="pagination-info" id="paginationInfo"></div>
-            <div class="pagination" id="pagination"></div>
+        <!-- Timeline Section -->
+        <div class="card" style="margin-top: 20px;" id="timelineSection" hidden>
+            <h3>📅 Timeline del Servicio <span id="timelineServicioId"></span></h3>
+            <div class="timeline" id="timelineContainer"></div>
         </div>
-    </main>
-
-    <footer>
-        <p>AnalysisOS • Optimizado para velocidad • © 2024</p>
-    </footer>
+    </div>
 
     <script>
-        let data = [];
-        let filteredData = [];
-        let currentPage = 1;
-        const pageSize = 50;
-        let debounceTimer;
+        let allData = [];
+        let autoRefreshInterval = null;
 
-        function showAlert(msg, type) {
-            const alert = document.getElementById('alert');
-            alert.className = `alert ${type}`;
-            document.getElementById('alertText').textContent = msg;
-            alert.style.display = 'flex';
-            setTimeout(() => alert.style.display = 'none', 5000);
-        }
+        // Cargar CSV
+        function loadCSV() {
+            const fileInput = document.getElementById('csvFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Por favor selecciona un archivo CSV');
+                return;
+            }
 
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
             const reader = new FileReader();
-            reader.onload = (event) => {
-                try {
-                    const csv = event.target.result;
-                    const lines = csv.split('\n');
-                    const headers = lines[0].split(',').map(h => h.trim());
-                    data = [];
-                    for (let i = 1; i < lines.length; i++) {
-                        if (!lines[i].trim()) continue;
-                        const valores = lines[i].split(',').map((v, idx) => {
-                            const val = v.trim();
-                            if (['DistanciaMetros', 'MinutosDesdeGPS'].includes(headers[idx])) return parseInt(val) || 0;
-                            if (['Activo', 'EnTurno', 'UpdateLocked', 'Empalme', 'PasaValidacion', 'FueNotificado'].includes(headers[idx])) return val.toLowerCase() === 'true';
-                            return val;
-                        });
-                        const obj = {};
-                        headers.forEach((h, i) => obj[h] = valores[i]);
-                        data.push(obj);
-                    }
-                    if (data.length > 0) {
-                        filteredData = [...data];
-                        document.getElementById('emptyState').style.display = 'none';
-                        actualizarVista();
-                        showAlert(`✓ ${data.length} registros cargados`, 'success');
-                    }
-                } catch (err) {
-                    showAlert('✗ Error al procesar CSV', 'error');
-                }
+            reader.onload = function(e) {
+                const text = e.target.result;
+                parseCSV(text);
             };
             reader.readAsText(file);
-        });
-
-        function actualizarVista() {
-            document.getElementById('summaryBox').style.display = 'block';
-            document.getElementById('tableWrapper').style.display = 'block';
-            document.getElementById('controlsBox').style.display = 'grid';
-            document.getElementById('statsGrid').style.display = 'grid';
-            document.getElementById('totalRows').textContent = data.length;
-            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString('es-ES');
-            calcularEstadisticas();
-            currentPage = 1;
-            renderTabla();
         }
 
-        function calcularEstadisticas() {
-            let gpsCount = 0, enTurno = 0, activos = 0, validacion = 0, notificados = 0;
-            const conductoresSet = new Set();
-            const serviciosSet = new Set();
-            const reasonsMap = {};
-            let totalAnillo = 0, anilloCount = 0;
-
-            data.forEach(r => {
-                conductoresSet.add(r.IdConductor);
-                serviciosSet.add(r.IdServicio);
-                if (r.RazonExclusion && r.RazonExclusion.includes('GPS_DESACTUALIZADO')) gpsCount++;
-                if (r.EnTurno === true) enTurno++;
-                if (r.Activo === true) activos++;
-                if (r.PasaValidacion === true) validacion++;
-                if (r.FueNotificado === true) notificados++;
-                const reason = r.RazonExclusion || 'DESCONOCIDO';
-                reasonsMap[reason] = (reasonsMap[reason] || 0) + 1;
-                if (r.Anillo) {
-                    totalAnillo += r.Anillo;
-                    anilloCount++;
+        // Parsear CSV
+        function parseCSV(text) {
+            const lines = text.split('\n');
+            const data = [];
+            
+            // Saltar header
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                // Parse CSV teniendo en cuenta comillas
+                const matches = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                if (matches && matches.length >= 4) {
+                    data.push({
+                        timestamp: matches[0].replace(/"/g, ''),
+                        idServicio: matches[1].replace(/"/g, ''),
+                        anillo: matches[2].replace(/"/g, ''),
+                        accion: matches[3].replace(/"/g, ''),
+                        detalles: matches[4] ? matches[4].replace(/"/g, '') : ''
+                    });
                 }
-            });
-
-            const topReason = Object.keys(reasonsMap).reduce((a, b) => reasonsMap[a] > reasonsMap[b] ? a : b, 'N/A');
-            const avgAnillo = anilloCount > 0 ? (totalAnillo / anilloCount).toFixed(1) : 0;
-
-            document.getElementById('statTotal').textContent = data.length;
-            document.getElementById('statGPS').textContent = gpsCount;
-            document.getElementById('statConductores').textContent = conductoresSet.size;
-            document.getElementById('statEnTurno').textContent = enTurno;
-            document.getElementById('statActivos').textContent = activos;
-            document.getElementById('statValidacion').textContent = validacion;
-            document.getElementById('uniqueConductors').textContent = conductoresSet.size;
-            document.getElementById('uniqueServices').textContent = serviciosSet.size;
-            document.getElementById('notificadosCount').textContent = notificados;
-            document.getElementById('noNotificadosCount').textContent = data.length - notificados;
-            document.getElementById('topReason').textContent = topReason.substring(0, 20);
-            document.getElementById('avgAnillo').textContent = avgAnillo;
-        }
-
-        function filtroDebounce() {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(() => aplicarFiltros(), 300);
-        }
-
-        function aplicarFiltros() {
-            const servicio = document.getElementById('servicioFilter').value.toLowerCase();
-            const anillo = document.getElementById('anilloFilter').value;
-            const estado = document.getElementById('estadoFilter').value;
-            const notificacion = document.getElementById('notificacionFilter').value;
-            const search = document.getElementById('searchInput').value.toLowerCase();
-            const reasonSearch = document.getElementById('reasonSearch').value.toLowerCase();
-
-            filteredData = data.filter(r => {
-                if (servicio && !r.IdServicio.toString().includes(servicio)) return false;
-                if (anillo && r.Anillo != anillo) return false;
-                if (estado && r.Estado !== estado) return false;
-                if (notificacion && r.FueNotificado.toString() !== notificacion) return false;
-                if (search && !r.NombreConductor.toLowerCase().includes(search) && !r.IdConductor.toString().includes(search)) return false;
-                if (reasonSearch && (!r.RazonExclusion || !r.RazonExclusion.toLowerCase().includes(reasonSearch))) return false;
-                return true;
-            });
-
-            currentPage = 1;
-            renderTabla();
-        }
-
-        function renderTabla() {
-            const start = (currentPage - 1) * pageSize;
-            const end = start + pageSize;
-            const pageData = filteredData.slice(start, end);
-            
-            let html = '';
-            pageData.forEach(r => {
-                html += `<tr>
-                    <td style="font-size:0.75rem">${r.Timestamp}</td>
-                    <td><strong style="color:#1565c0">${r.IdServicio}</strong></td>
-                    <td><strong>${r.Anillo}</strong></td>
-                    <td>${r.IdConductor}</td>
-                    <td>${r.NombreConductor.substring(0, 16)}</td>
-                    <td>${r.DistanciaMetros}</td>
-                    <td style="font-size:0.75rem">${r.Zona.substring(0, 10)}</td>
-                    <td><span class="badge ${r.Estado.toLowerCase()}">${r.Estado}</span></td>
-                    <td style="color:${r.MinutosDesdeGPS>100000?'#f9a825':'#4caf50'}">${r.MinutosDesdeGPS}</td>
-                    <td><span class="badge ${r.Activo}">${r.Activo?'SÍ':'NO'}</span></td>
-                    <td><span class="badge ${r.EnTurno}">${r.EnTurno?'SÍ':'NO'}</span></td>
-                    <td><span class="badge ${r.UpdateLocked}">${r.UpdateLocked?'SÍ':'NO'}</span></td>
-                    <td><span class="badge ${r.Empalme}">${r.Empalme?'SÍ':'NO'}</span></td>
-                    <td><span class="badge ${r.PasaValidacion}">${r.PasaValidacion?'SÍ':'NO'}</span></td>
-                    <td style="font-size:0.75rem;max-width:150px">${r.RazonExclusion||'N/A'}</td>
-                    <td><span class="badge notificado">${r.FueNotificado?'✓':'✗'}</span></td>
-                </tr>`;
-            });
-            
-            document.getElementById('tableBody').innerHTML = html;
-            
-            const totalPages = Math.ceil(filteredData.length / pageSize);
-            document.getElementById('paginationInfo').textContent = `Mostrando ${start + 1} - ${Math.min(end, filteredData.length)} de ${filteredData.length} registros`;
-            
-            let paginationHTML = '';
-            if (currentPage > 1) paginationHTML += `<button onclick="goToPage(1)">« Primera</button><button onclick="goToPage(${currentPage - 1})">‹ Anterior</button>`;
-            for (let i = Math.max(1, currentPage - 2); i <= Math.min(totalPages, currentPage + 2); i++) {
-                paginationHTML += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
             }
-            if (currentPage < totalPages) paginationHTML += `<button onclick="goToPage(${currentPage + 1})">Siguiente ›</button><button onclick="goToPage(${totalPages})">Última »</button>`;
-            document.getElementById('pagination').innerHTML = paginationHTML;
+            
+            allData = data;
+            updateStats();
+            displayData(data);
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
         }
 
-        function goToPage(page) {
-            const totalPages = Math.ceil(filteredData.length / pageSize);
-            if (page >= 1 && page <= totalPages) {
-                currentPage = page;
-                renderTabla();
-                document.querySelector('.table-container').scrollTop = 0;
+        // Actualizar estadísticas
+        function updateStats() {
+            document.getElementById('totalEventos').textContent = allData.length;
+            
+            const serviciosUnicos = new Set(allData.map(d => d.idServicio)).size;
+            document.getElementById('totalServicios').textContent = serviciosUnicos;
+            
+            // Detectar problemas (saltos de anillo rápidos)
+            // const problemas = detectarProblemas();
+            // document.getElementById('problemasDetectados').textContent = problemas;
+            
+            // Calcular tiempo promedio entre anillos
+            //const tiempoPromedio = calcularTiempoPromedio();
+            //document.getElementById('tiempoPromedio').textContent = tiempoPromedio;
+        }
+
+        // Detectar servicios con saltos de anillo
+        // function detectarProblemas() {
+        //     const servicios = {};
+        //     let problemas = 0;
+            
+        //     allData.forEach(row => {
+        //         if (!servicios[row.idServicio]) {
+        //             servicios[row.idServicio] = [];
+        //         }
+        //         servicios[row.idServicio].push({
+        //             timestamp: row.timestamp,
+        //             anillo: parseInt(row.anillo),
+        //             accion: row.accion
+        //         });
+        //     });
+            
+        //     Object.keys(servicios).forEach(idServicio => {
+        //         const eventos = servicios[idServicio].sort((a, b) => 
+        //             new Date('1970/01/01 ' + a.timestamp) - new Date('1970/01/01 ' + b.timestamp)
+        //         );
+                
+        //         for (let i = 1; i < eventos.length; i++) {
+        //             const prev = eventos[i - 1];
+        //             const curr = eventos[i];
+                    
+        //             const timeDiff = (new Date('1970/01/01 ' + curr.timestamp) - 
+        //                              new Date('1970/01/01 ' + prev.timestamp)) / 1000;
+                    
+        //             // Si cambió de anillo en menos de 10 segundos
+        //             if (curr.anillo > prev.anillo && timeDiff < 10) {
+        //                 problemas++;
+        //                 break;
+        //             }
+        //         }
+        //     });
+            
+        //     return problemas;
+        // }
+
+        // Calcular tiempo promedio
+        // function calcularTiempoPromedio() {
+        //     const tiempos = [];
+        //     const servicios = {};
+            
+        //     allData.forEach(row => {
+        //         if (!servicios[row.idServicio]) {
+        //             servicios[row.idServicio] = [];
+        //         }
+        //         servicios[row.idServicio].push({
+        //             timestamp: row.timestamp,
+        //             anillo: parseInt(row.anillo)
+        //         });
+        //     });
+            
+        //     Object.values(servicios).forEach(eventos => {
+        //         for (let i = 1; i < eventos.length; i++) {
+        //             const timeDiff = (new Date('1970/01/01 ' + eventos[i].timestamp) - 
+        //                              new Date('1970/01/01 ' + eventos[i-1].timestamp)) / 1000;
+        //             tiempos.push(timeDiff);
+        //         }
+        //     });
+            
+        //     if (tiempos.length === 0) return '--';
+            
+        //     const promedio = tiempos.reduce((a, b) => a + b, 0) / tiempos.length;
+        //     return promedio.toFixed(1) + 's';
+        // }
+
+        // Mostrar datos en tabla
+        function displayData(data) {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px; color: #9ca3af;">No hay datos para mostrar</td></tr>';
+                return;
+            }
+            
+            data.slice().reverse().forEach(row => {
+                const tr = document.createElement('tr');
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => showTimeline(row.idServicio);
+                
+                const anilloClass = `badge-anillo-${row.anillo}`;
+                
+                tr.innerHTML = `
+                    <td style="font-family: monospace;">${row.timestamp}</td>
+                    <td><strong>${row.idServicio}</strong></td>
+                    <td><span class="badge ${anilloClass}">Anillo ${row.anillo}</span></td>
+                    <td>${row.accion}</td>
+                    <td style="color: #6b7280; font-size: 13px;">${row.detalles}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Filtrar tabla
+        function filterTable() {
+            const filterServicio = document.getElementById('filterServicio').value.toLowerCase();
+            const filterAnillo = document.getElementById('filterAnillo').value;
+            const filterAccion = document.getElementById('filterAccion').value.toLowerCase();
+            const filterConductor = document.getElementById('filterConductor').value.toLowerCase();
+            
+            const filtered = allData.filter(row => {
+                return (
+                    (filterServicio === '' || row.idServicio.toLowerCase().includes(filterServicio)) &&
+                    (filterAnillo === '' || row.anillo === filterAnillo) &&
+                    (filterAccion === '' || row.accion.toLowerCase().includes(filterAccion)) &&
+                    (filterConductor === '' || row.detalles.toLowerCase().includes(filterConductor))
+                );
+            });
+            
+            displayData(filtered);
+        }
+
+        // Mostrar timeline
+        function showTimeline(idServicio) {
+            const servicioData = allData.filter(d => d.idServicio === idServicio);
+            const section = document.getElementById('timelineSection');
+            const container = document.getElementById('timelineContainer');
+            
+            document.getElementById('timelineServicioId').textContent = idServicio;
+            container.innerHTML = '';
+            
+            servicioData.forEach(evento => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.innerHTML = `
+                    <div class="timeline-time">${evento.timestamp}</div>
+                    <div class="timeline-content">
+                        <strong>${evento.accion}</strong> - Anillo ${evento.anillo}
+                        <div style="color: #6b7280; font-size: 13px; margin-top: 5px;">${evento.detalles}</div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+            
+            section.hidden = false;
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Limpiar datos
+        function clearData() {
+            if (confirm('¿Estás seguro de limpiar todos los datos?')) {
+                allData = [];
+                updateStats();
+                displayData([]);
+                document.getElementById('timelineSection').hidden = true;
+                document.getElementById('csvFile').value = '';
             }
         }
 
-        function exportarCSV() {
-            let csv = 'Timestamp,IdServicio,Anillo,IdConductor,NombreConductor,DistanciaMetros,Zona,Estado,MinutosDesdeGPS,Activo,EnTurno,UpdateLocked,Empalme,PasaValidacion,RazonExclusion,FueNotificado\n';
-            filteredData.forEach(r => {
-                csv += `"${r.Timestamp}","${r.IdServicio}",${r.Anillo},"${r.IdConductor}","${r.NombreConductor}",${r.DistanciaMetros},"${r.Zona}","${r.Estado}",${r.MinutosDesdeGPS},${r.Activo},${r.EnTurno},${r.UpdateLocked},${r.Empalme},${r.PasaValidacion},"${r.RazonExclusion}",${r.FueNotificado}\n`;
-            });
-            const blob = new Blob([csv], { type: 'text/csv; charset=utf-8;' });
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `analysis_${new Date().toISOString().slice(0,10)}.csv`;
-            link.click();
+        // Auto-refresh
+        function toggleAutoRefresh() {
+            const checkbox = document.getElementById('autoRefresh');
+            
+            if (checkbox.checked) {
+                autoRefreshInterval = setInterval(() => {
+                    const fileInput = document.getElementById('csvFile');
+                    if (fileInput.files[0]) {
+                        loadCSV();
+                    }
+                }, 5000);
+            } else {
+                if (autoRefreshInterval) {
+                    clearInterval(autoRefreshInterval);
+                    autoRefreshInterval = null;
+                }
+            }
         }
     </script>
 </body>
